@@ -8,7 +8,6 @@
 # right inversion i,j > n/2
 # split inversion if i <= n/2 < j
 
-
 def count(arr):
     arrLen = len(arr)
     if arrLen == 1:
@@ -26,7 +25,7 @@ def count_split_inversion(arr):
     inv_count = 0
     for i in range(middle):
         for j in range(middle, len(arr)):
-        
+
             if arr[i] > arr[j]:
                 inv_count += 1
 
