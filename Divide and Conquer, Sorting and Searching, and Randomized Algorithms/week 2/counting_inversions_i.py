@@ -8,6 +8,8 @@
 # right inversion i,j > n/2
 # split inversion if i <= n/2 < j
 
+from timeit import timeit
+
 def count(arr):
     arrLen = len(arr)
     if arrLen == 1:
@@ -30,3 +32,15 @@ def count_split_inversion(arr):
                 inv_count += 1
 
     return inv_count
+
+if __name__ == '__main__':
+    input_array = None
+    with open('IntegerArray.txt') as f:
+        input_array = [int(x) for x in f.readlines()]
+
+    begin = timeit()
+    if input_array is not None:
+        res = count(input_array)
+        print("Inversions number: ", res) # 2407905288L / 2407905288L
+    end = timeit()
+    print("Time: ", end - begin) # 3.1399999994693485e-05

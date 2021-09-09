@@ -20,7 +20,9 @@ def merge(l_arr, r_arr, order):
         orderCoeff = -1
     else:
         assert False, 'incorrect order'
-
+    
+    print ">> merge l_arr={}, r_arr={}".format(l_arr, r_arr)
+    
     while i < len(l_arr) and j < len(r_arr):
 
         if orderCoeff * l_arr[i] < orderCoeff * r_arr[j]:
@@ -34,3 +36,8 @@ def merge(l_arr, r_arr, order):
     res.extend(r_arr[j:])
 
     return res
+    
+if __name__ == '__main__':
+    input_array = [1, 5, 4, 8, 10, 2, 6, 9, 3, 7]
+    arr = sort(input_array, 'asc')
+    print("Sorted array: ", arr)
