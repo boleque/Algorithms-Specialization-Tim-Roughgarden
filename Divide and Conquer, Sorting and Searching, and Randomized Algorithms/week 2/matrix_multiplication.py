@@ -68,7 +68,7 @@ def sub_matrices(A, B, C, rowC, colC):
         for j in range(lenA):
             C[i+rowC][j+colC] = A[i][j] - B[i][j]
 
-# Strassen strassen's subcubic matrix multiplication algorithm - O(n^2)
+# Strassen strassen's subcubic matrix multiplication algorithm - < O(n^3)
 # P1 = A11*(B12−B22)
 # P2 = (A11+A12)*B22
 # P3 = (A21+A22)*B11
