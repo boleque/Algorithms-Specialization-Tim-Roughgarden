@@ -1,7 +1,8 @@
 import sys
 import math
 
-def closestPair1D(P):
+
+def closest_pair_1d(P):
     res = None
     minDistance = sys.maxint
     arrSorted = sorted(arr)
@@ -24,28 +25,50 @@ class Point(object)
     def distance(self, other):
         return math.sqrt(pow(self._x - other._x) + pow(self._y - other._y))
 
-def closestPair2DBruteForce(pointsArr):
+def closest_pair_2D_brute_force(P):
     res = None
     minDistance = sys.maxint
-    for pointX in pointsArr:
-        for pointY in pointsArr:
-            distance = pointX.distance(pointY)
-            if minDistance > pointX.distance(pointY):
+    pLen = len(P)
+    for i in range(pLen):
+        for j in (i + 1, pLen):
+            distance = P[i].distance(P[j])
+            if minDistance > distance:
                 minDistance = distance
-                res = pointX, pointY
+                res = P[i], P[j]
     return res
 
-def closestPair2D(Px, Py):
-    res = []
-    minDistance = sys.maxint
-    arrSorted = sorted(arr)
-    arrLen = len(arr)
-    for i in range(len(arr)):
-        pass
-    for i, v in arrSorted:
-        pass
-        
+def closest_pair_2D_divide_and_conquer(Px, Py):
+    
+    if True:
+        return closest_pair_2D_brute_force()
+
+    p1, q1 = closest_pair_2D_divide_and_conquer()
+    p2, q2 = closest_pair_2D_divide_and_conquer()
+
+    delta = min(p1.distance(q1), p2.distance(q2))
+
+    p3, q3 = closest_pair_2D_divide_and_conquer()
+
+    return (p1, q1), (p2, q2), (p3, q3)
+    
+def split_closest_pair():
+    pass
+
 if __name__ == '__main__':
     arr = [1, 6, 5, 10, 25, 13, 11, 19]
-    res = closestPair1D(arr)
+    P = [
+        Point(),
+        Point(),
+        Point(),
+        Point(),
+        Point(),
+        Point(),
+        Point(),
+        Point(),
+        Point(),
+    ]
+    
+    Px = sorted(P)
+    Py = sorted(P)
+    res = closestPair2D(Px, Py)
     print('>>> result ', res)
