@@ -23,22 +23,22 @@ class Point(object):
         self._y = y
 
     def distance(self, other):
-        return math.sqrt(pow(self._x - other._x) + pow(self._y - other._y))
+        return math.sqrt(pow(self._x - other._x, 2) + pow(self._y - other._y, 2))
     
     def __repr__(self):
         return "Point x={} y={}".format(self._x, self._y)
 
 def closest_pair_2D_brute_force(P):
     best_pair = None
-    minDistance = sys.maxint
+    min_dist = sys.maxint
     pLen = len(P)
     for i in range(pLen):
-        for j in (i + 1, pLen):
+        for j in range(i + 1, pLen):
             distance = P[i].distance(P[j])
-            if minDistance > distance:
-                minDistance = distance
+            if min_dist > distance:
+                min_dist = distance
                 best_pair = P[i], P[j]
-    return best_pair
+    return min_dist, best_pair
 
 def closest_pair_2D_divide_and_conquer(Px, Py):
     pLen = len(Px)
@@ -51,34 +51,41 @@ def closest_pair_2D_divide_and_conquer(Px, Py):
     Qx, Qy = Px[:middle], Py[:middle]
     Rx, Ry = Px[middle:], Py[middle:]
 
-    p1, q1 = closest_pair_2D_divide_and_conquer(Qx, Qy)
-    p2, q2 = closest_pair_2D_divide_and_conquer(Rx, Ry)
+    dist1, pair1 = closest_pair_2D_divide_and_conquer(Qx, Qy)
+    dist2, pair2 = closest_pair_2D_divide_and_conquer(Rx, Ry)
 
-    delta = min(p1.distance(q1), p2.distance(q2))
+    delta = min(dist1, dist2)
 
-    p3, q3 = split_closest_pair(Px, Py, delta)
+    dist3, pair3 = split_closest_pair(Px, Py, delta)
+    
+    best_pair = None
+    min_dist = min(dist1, dist2, dist3)
+    if min_dist == dist1:
+        best_pair = pair1
+    elif min_dist == dist2:
+        best_pair = pair2
+    else:
+        best_pair = pair3
 
-    return best of (p1, q1), (p2, q2), (p3, q3)
+    return min_dist, best_pair
 
 def split_closest_pair(Px, Py, delta):
     pLen = len(Px)
     # x - max coord in left of P
     x = Px[:pLen // 2][-1]._x
     # let Sy be the points of P with x within the range
-    Sy = [p for p in Py if (x - delta) <= p._x =< (x + delta)]
+    Sy = [p for p in Py if (x - delta) < p._x < (x + delta)]
 
-    best = delta
+    min_dist = delta
     best_pair = None
     sLen = len(Sy)
-    
-    points_to_check_i, points_to_check_j = sLen, sLen if sLen <= 7 else (Sy - 7), 7
-    for i in range(points_to_check_i):
-        for j in (i + 1, points_to_check_j):
-            distance = Sy[i].distanceTo(Sy[j])
-            if distance < best:
-                best = distance
+    for i in range(sLen):
+        for j in range(min(7, sLen-1)):
+            distance = Sy[i].distance(Sy[j])
+            if distance < min_dist:
+                min_dist = distance
                 best_pair = Sy[i], Sy[j]
-    return best_pair
+    return min_dist, best_pair
 
 if __name__ == '__main__':
     arr = [1, 6, 5, 10, 25, 13, 11, 19]
@@ -92,3 +99,5 @@ if __name__ == '__main__':
 
     Px = sorted(P, key=lambda p: p._x)
     Py = sorted(P, key=lambda p: p._y)
+    res = closest_pair_2D_divide_and_conquer(Px, Py)
+    print("closest pair ", res)
