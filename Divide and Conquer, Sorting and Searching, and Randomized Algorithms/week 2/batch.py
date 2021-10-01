@@ -50,29 +50,24 @@ def max_in_unimodal_array(arr):
 #negative, or zero. You want to decide whether or not there is an index i such that A[i] = i. Design the 
 #fastest algorithm that you can for solving this problem.
 def find_index_value_equal(arr):
-    valueToIndexMap = {i: v for i, v in enumerate(arr)}
+    valueToIndexMap = {v: i for i, v in enumerate(arr)}
+    print('>> valueToIndexMap ', valueToIndexMap)
     return _find_index_value_equal(arr, valueToIndexMap)
-    
+
 def _find_index_value_equal(arr, valueToIndexMap):
     arrLen = len(arr)
-    # Check base case
-    if arrLen > 1:
-        middle = arrLen // 2
-        value = arr[middle]
-        index = valueToIndexMap[arr[middle]]
-        if value == index:
-            return index
-        elif value > index:
-            return _find_index_value_equal(arr[:middle], valueToIndexMap)
-        else:
-            return _find_index_value_equal(arr[middle:], valueToIndexMap)
+    if not arrLen:
+        return False
+
+    middle = arrLen // 2
+    value = arr[middle]
+    index = valueToIndexMap[arr[middle]]
+    if value == index:
+        return index
+    elif value > index:
+        return _find_index_value_equal(arr[:middle], valueToIndexMap)
     else:
-        return -1
-    
-if __name__ == '__main__':
-    arr = [-1, 0, 1, 3, 6, 7]
-    res = find_index_value_equal(arr)
-    print('>> Result ', res)
+        return _find_index_value_equal(arr[middle:], valueToIndexMap)
     
 #You are given an n by n grid of distinct numbers. A number is a local minimum if it is smaller than all 
 #of its neighbors. (A neighbor of a number is one immediately above, below, to the left, or the right.
