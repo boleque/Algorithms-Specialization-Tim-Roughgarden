@@ -2,6 +2,7 @@
 #Give an algorithm that identifies the second-largest number in the array, and that uses at most n + logn - 2 comparisons.
 
 # little bit similar https://leetcode.com/problems/third-maximum-number/
+import sys
 
 
 def second_largest_number(arr):
@@ -76,3 +77,77 @@ def _find_index_value_equal(arr, valueToIndexMap):
 #comparisons between pairs of numbers. (Note: since there are n2n^2n2 numbers in the input, you 
 #cannot afford to look at all of them. Hint: Think about what types of recurrences would give you 
 #the desired upper bound.)
+
+
+def findLocalMinimun(arr):
+	arrLen = len(arr)
+	topRowIdx = 0
+	bottomRowIdx = arrLen - 1
+	while topRowIdx <= bottomRowIdx:
+		midRowIdx = topRowIdx + (bottomRowIdx - topRowIdx) // 2
+		minColIdx = findMinColIndex(arr[midRowIdx])
+		minRowIdx = findMinRowIndexNeighborhood(arr, midRowIdx, minColIdx)
+		if minRowIdx == midRowIdx:
+			return arr[minRowIdx][minColIdx]
+		elif minRowIdx < midRowIdx:
+			bottomRowIdx = midRowIdx - 1
+		else:
+			topRowIdx = midRowIdx + 1
+		
+
+def findMinRowIndexNeighborhood(arr, middleRow, minColIndex):
+	arrLen = len(arr)
+	valueBelow, valueAbove = sys.maxint, sys.maxint
+	valueMiddle = arr[middleRow][minColIndex]
+	if middleRow-1 >= 0:
+		valueBelow = arr[middleRow-1][minColIndex]
+
+	if middleRow+1 <= arrLen:
+		valueAbove = arr[middleRow+1][minColIndex]
+	
+	minValue = min(valueMiddle, valueBelow, valueAbove)
+	if minValue == valueMiddle:
+		return middleRow
+	elif minValue == valueBelow:
+		return middleRow-1
+	else:
+		return middleRow+1
+
+def findMinColIndex(arr):
+	minRow = 0
+	minElement = sys.maxint
+	for idx, val in enumerate(arr):
+		if val < minElement:
+			minElement = val
+			minRow = idx
+	return minRow
+
+
+
+if __name__ == '__main__':
+	arr1 = [
+		[30, 19, 18, 40, 16, 45, 13],
+		[43, 14, 15, 12, 25, 34, 17],
+		[24, 1, 32, 33, 31, 36, 11],
+		[44, 6, 48, 46, 39, 27, 8],
+		[29, 20, 49, 26, 28, 22, 7],
+		[38, 4, 47, 5, 10, 23, 3],
+		[42, 41, 37, 2, 9, 35, 21],
+	]
+
+	arr2 = [
+		[17, 16, 32, 15, 23, 36],
+		[20, 3, 18, 35, 11, 9],
+		[26, 5, 8, 30, 13, 22],
+		[10, 31, 2, 1, 7, 14],
+		[28, 12, 6, 24, 25, 34],
+		[29, 21, 27, 19, 4, 33],
+	]
+
+	res = findLocalMinimun(arr2)
+	print('>> local minimum is: ', res)
+
+
+
+
+
