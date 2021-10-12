@@ -14,6 +14,8 @@ def __partition(arr, left_idx, right_idx, mode):
         pivot_idx = right_idx
     elif mode == 'mean':
         pivot_idx = median_of_three(arr, left_idx, right_idx)
+    #else:
+    #    pivot_idx = random
 
     # important: swap elements to ensure pivot on the left most position
     arr[pivot_idx], arr[left_idx] = arr[left_idx], arr[pivot_idx]
