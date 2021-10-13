@@ -8,7 +8,6 @@ def first_ordered_select(arr):
         first_ordered_elem = min(first_ordered_elem, arr[i])
     return first_ordered_elem
 
-
 # 2-th order statistic 
 def second_ordered_select(arr):
     arrLen = len(arr)
@@ -30,14 +29,16 @@ def second_ordered_select(arr):
 
 # i-th order statistic
 def randomized_select(arr, left_idx, right_idx, order_statistic):
-    if left_idx < right_idx:
+    if left_idx == right_idx:
+        return arr[left_idx]
+    elif left_idx < right_idx:
         partition_idx = __partition(arr, left_idx, right_idx)
         if partition_idx == order_statistic:
             return arr[partition_idx]
-        elif partition_idx < order_statistic:
-            randomized_select(arr, left_idx, partition_idx - 1, order_statistic)
+        elif partition_idx > order_statistic:
+            return randomized_select(arr, left_idx, partition_idx - 1, order_statistic)
         else:
-            randomized_select(arr, partition_idx + 1, right_idx, order_statistic - partition_idx)
+            return randomized_select(arr, partition_idx + 1, right_idx, order_statistic - partition_idx)
 
 def __partition(arr, left_idx, right_idx):
     pivot_idx = random.choice(xrange(left_idx, right_idx))
@@ -51,4 +52,3 @@ def __partition(arr, left_idx, right_idx):
             i += 1
     arr[i - 1], arr[left_idx] = arr[left_idx], arr[i - 1]
     return i - 1
-    
