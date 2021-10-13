@@ -1,3 +1,5 @@
+import random
+
 # Trivial cases
 # 1-th order statistic
 def first_ordered_select(arr):
@@ -27,6 +29,26 @@ def second_ordered_select(arr):
     return second_ordered_elem
 
 # i-th order statistic
-def randomized_select(arr, order_statistic):
-    pass
+def randomized_select(arr, left_idx, right_idx, order_statistic):
+    if left_idx < right_idx:
+        partition_idx = __partition(arr, left_idx, right_idx)
+        if partition_idx == order_statistic:
+            return arr[partition_idx]
+        elif partition_idx < order_statistic:
+            randomized_select(arr, left_idx, partition_idx - 1, order_statistic)
+        else:
+            randomized_select(arr, partition_idx + 1, right_idx, order_statistic - partition_idx)
+
+def __partition(arr, left_idx, right_idx):
+    pivot_idx = random.choice(xrange(left_idx, right_idx))
+    # important: swap elements to ensure pivot on the left most position
+    arr[pivot_idx], arr[left_idx] = arr[left_idx], arr[pivot_idx]
+    i = left_idx + 1
+    pivot = arr[left_idx]
+    for j in range(left_idx + 1, right_idx + 1):
+        if arr[j] <= pivot:
+            arr[i], arr[j] = arr[j], arr[i]
+            i += 1
+    arr[i - 1], arr[left_idx] = arr[left_idx], arr[i - 1]
+    return i - 1
     
