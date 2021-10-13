@@ -54,8 +54,3 @@ def __partition(arr, left_idx, right_idx):
             i += 1
     arr[i - 1], arr[left_idx] = arr[left_idx], arr[i - 1]
     return i - 1
-
-if __name__ == '__main__':
-    arr = [3, 8, 2, 5, 1, 4, 7, 6]
-    res = randomized_select(arr, 0, len(arr)-1, 3)
-    print('>> ordered statistic ', res)
