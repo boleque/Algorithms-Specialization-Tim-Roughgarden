@@ -28,7 +28,6 @@ def second_ordered_select(arr):
     return second_ordered_elem
 
 # i-th order statistic
-# i-th order statistic
 def randomized_select(arr, left_idx, right_idx, order_statistic):
     if left_idx == right_idx:
         return arr[left_idx]
