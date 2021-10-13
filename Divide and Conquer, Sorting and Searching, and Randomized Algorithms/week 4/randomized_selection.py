@@ -28,27 +28,34 @@ def second_ordered_select(arr):
     return second_ordered_elem
 
 # i-th order statistic
+# i-th order statistic
 def randomized_select(arr, left_idx, right_idx, order_statistic):
     if left_idx == right_idx:
         return arr[left_idx]
     elif left_idx < right_idx:
         partition_idx = __partition(arr, left_idx, right_idx)
-        if partition_idx == order_statistic:
+        k = partition_idx - left_idx + 1
+        if k == order_statistic:
             return arr[partition_idx]
-        elif partition_idx > order_statistic:
+        elif k > order_statistic:
             return randomized_select(arr, left_idx, partition_idx - 1, order_statistic)
         else:
-            return randomized_select(arr, partition_idx + 1, right_idx, order_statistic - partition_idx)
+            return randomized_select(arr, partition_idx + 1, right_idx, order_statistic - k)
 
 def __partition(arr, left_idx, right_idx):
-    pivot_idx = random.choice(xrange(left_idx, right_idx))
+    pivot_idx = random.choice(xrange(left_idx, right_idx + 1))
     # important: swap elements to ensure pivot on the left most position
     arr[pivot_idx], arr[left_idx] = arr[left_idx], arr[pivot_idx]
     i = left_idx + 1
     pivot = arr[left_idx]
-    for j in range(left_idx + 1, right_idx + 1):
+    for j in xrange(left_idx + 1, right_idx + 1):
         if arr[j] <= pivot:
             arr[i], arr[j] = arr[j], arr[i]
             i += 1
     arr[i - 1], arr[left_idx] = arr[left_idx], arr[i - 1]
     return i - 1
+
+if __name__ == '__main__':
+    arr = [3, 8, 2, 5, 1, 4, 7, 6]
+    res = randomized_select(arr, 0, len(arr)-1, 3)
+    print('>> ordered statistic ', res)
