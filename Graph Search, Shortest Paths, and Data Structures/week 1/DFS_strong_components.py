@@ -47,11 +47,6 @@ def strong_components(graph, graph_reversed, nodes_num):
     dfs_loop(graph_reversed, range(1, nodes_num), dfs_topological_order)
     dfs_loop(graph, finishing_times, dfs_scc)
 
-def most_common(leader, x):
-    results = [len(v) for k, v in leader.items()]
-
-    return sorted(results, reverse=True)[: x]
-
 def load_graph(filename):
     graph = {}
     graph_reversed = {}
