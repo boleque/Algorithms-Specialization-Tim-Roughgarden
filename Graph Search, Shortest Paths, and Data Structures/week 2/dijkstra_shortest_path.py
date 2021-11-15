@@ -1,5 +1,5 @@
 import heapq
-from collections import defaultdict, namedtuple
+from collections import defaultdict
 
 
 def load_graph():
@@ -14,8 +14,8 @@ def load_graph():
 				graph[parent_vtx].append((int(target), int(dist)))
 		return graph
 
-def dijkstra(graph, start_vtx, target_vtx):
-    A = {} # computed shortest path distances
+def dijkstra_shortest_path(graph, start_vtx, target_vtx):
+    paths = {} # computed shortest path distances from start vertex
     queue = [(0, start_vtx)]
     visited = set()
     while queue:
@@ -26,21 +26,17 @@ def dijkstra(graph, start_vtx, target_vtx):
         for neighbor, dist in graph[current_vtx]:
             if neighbor not in visited:
                 new_dist = current_vtx_dist + dist
-                if new_dist < A.get(neighbor, float('inf')):
-                    A[neighbor] = new_dist
+                if new_dist < paths.get(neighbor, float('inf')):
+                    paths[neighbor] = new_dist
                     heapq.heappush(queue, (new_dist, neighbor))
-    return A
+    return paths.get(target_vtx, float('inf'))
 
-def shortest_path(graph, start_vtx, target_vtx):
-    A = dijkstra(graph, start_vtx, target_vtx)
-    return A[target_vtx]
-    
 if __name__ == '__main__':
     graph = load_graph()
     start_vertex = 1
     target_verticies = (7, 37, 59, 82, 99, 115, 133, 165, 188, 197)
     for target_vertex in target_verticies:
-        print('shortest path={} from={} to={}'.format(shortest_path(graph, start_vertex, target_vertex), start_vertex, target_vertex))
+        print('shortest path={} from={} to={}'.format(dijkstra_shortest_path(graph, start_vertex, target_vertex), start_vertex, target_vertex))
 
     # shortest path=2599 from=1 to=7
     # shortest path=2610 from=1 to=37
