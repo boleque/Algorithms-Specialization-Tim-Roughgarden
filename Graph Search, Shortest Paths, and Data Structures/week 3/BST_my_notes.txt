@@ -1,0 +1,77 @@
+
+Sorted Arrays: Supported Operations
+
+1. search (binary search) 	-> O(logn)
+2. ith ordered statistics 	-> O(1)
+3. min/max 				  	-> O(1)
+4. pred/succ 			  	-> O(1)
+5. rank  					-> O(logn) (how many keys a less/equal/more than given)
+6. output in spec order		-> O(n)
+
+Doesn't handle effictive insertions and deletions O(n) !
+
+Balanced Search Trees: Supported Operations (dynamic version of sorted array)
+
+1. search (binary search) 	-> O(logn)
+2. ith ordered statistics 	-> O(logn)
+3. min/max 				  	-> O(logn)
+4. pred/succ 			  	-> O(logn)
+5. rank 					-> O(logn) (how many keys a less/equal/more than given)
+6. output in spec order	  	-> O(n)
+7. insert 					-> O(logn)
+8. delete 					-> O(logn)
+
+Example:
+		3
+	  /   \
+	1	   2
+	  \     \
+	   2 	 4
+
+BST descr:
+- one node per key
+- eache node has left / right / parent pointer
+
+BST property:
+				   Root
+				/		\
+	X >= LeftSubTree	RightSubTree > X
+(In contrast, in heaps parents have to be smaller than children)
+
+Duplicated refers to implementation convention
+
+The height of a BST
+Noe: Many possible trees for a set of keys
+
+Valid tree:
+	 3
+   /    \
+1		  5
+   \    /
+	2	3
+
+Also valid:
+         5
+		/
+       4
+	  /
+	 3
+	/ 
+   2
+  / 
+ 1
+
+The height of BST:
+Is the longest path from root to leaf
+Could be anywhere from ~log(n) to ~ n
+
+Searching and Inserting:
+To search for k in Tree T
+- start at the root
+- traverse left (if k < key at current node) / right (if k > key at current node)
+- return node with key k or null 
+
+To insert
+- search for a key k
+- if k is not in tree yet
+- rewire final null ptr to point to new node with key k

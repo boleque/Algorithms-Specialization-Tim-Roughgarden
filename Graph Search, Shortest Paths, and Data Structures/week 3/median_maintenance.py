@@ -36,5 +36,4 @@ if __name__ == "__main__":
     input_array = get_data()
     median_sum = get_medians_sum(input_array)
     print(median_sum % 10000)
-    
     # 1420
