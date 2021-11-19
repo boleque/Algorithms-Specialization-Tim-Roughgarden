@@ -75,3 +75,47 @@ To insert
 - search for a key k
 - if k is not in tree yet
 - rewire final null ptr to point to new node with key k
+
+Min, Max, Pred, Succ:
+Compute the minimum key of a tree
+- search at root keep following left child
+Computer the predecessor of key k
+- easy case: if k's left subtree nonempty, return max key in left subtree;
+- otherwise:  (no left subtree) follow parent pointer until you get to node smaller than your own
+
+In-order Traversal (running time O(n)):
+To print out keys in increasing order
+- let r = root of search tree, with subtree Tl and Tr;
+- recurse on Tl (all smaller keys)
+- print out r's keys
+- recurse on Tr (all bigger keys)
+- print out r's keys again
+
+Deletion:
+To delete keys from a search tree
+- search for k
+easy case (k has no children):
+- just delete k's node from tree, done
+medium case (k has one child): 
+- replace with unique left child
+difficult case (k has two children):
+- compute k's predecessor l (next smallest key)
+- swap k and l
+
+Select and rank:
+Idea - store an extra info at each tree node about tree size(x) = # of tree nodes
+in subtree rooted at x
+if x has children y and z, then size(y) + size(z) + 1 (equals size(x))
+
+	 3 (size 5)
+   /    \
+1 size(2) #5 size(2)
+   \    /
+	2	3 #size(1)
+
+How to select ith order statistics:
+- start at root x, with subtree y and z
+- let a - size(y) [a =0 if x has no left child]
+- if a = i-1 return x's key
+- if a >= i recurse in left subtree
+- if a < i - 1 recurse in right subtree
