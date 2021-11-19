@@ -1,0 +1,12 @@
+Balanced Search Trees:
+Idea - ensure that hight always log(n)
+Example: red-black trees, AVL trees, splay trees, B trees;
+
+RB trees maintains invariants to stay balanced
+Red-Black Invariants:
+---cosmetic---
+1. Each node red or black;
+2. Root is always black;
+---main---
+3. no 2 reds in a row (red node -> black children);
+4. every path to root-null path has same number of black nodes;
