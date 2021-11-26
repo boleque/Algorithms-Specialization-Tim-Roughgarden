@@ -39,7 +39,7 @@ def weighted_completion_times(jobs_num, jobs, score_type):
     elif score_type == 'difference':
         sort_criteria = lambda job_info: (job_info[0] - job_info[1], job_info[0])
 
-    jobs_num_sorted = sorted(jobs, key=sort_criteria, reverse=True)
+    jobs_num_sorted = sorted(jobs, key=sort_criteria, reverse=False)
     completion_times = 0
     total_time = 0
     for weight, length in jobs_num_sorted:
