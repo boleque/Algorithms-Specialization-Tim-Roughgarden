@@ -14,6 +14,7 @@
 #Your task is to run Prim's minimum spanning tree algorithm on this graph.  You should report the overall cost of a minimum spanning tree --- an integer, which may or may not be negative --- in the box below. 
 #IMPLEMENTATION NOTES: This graph is small enough that the straightforward O(mn) time implementation of Prim's algorithm should work fine. OPTIONAL: For those of you seeking an additional challenge, try implementing a heap-based version. The simpler approach, which should already give you a healthy speed-up, is to maintain relevant edges in a heap (with keys = edge costs).  The superior approach stores the unprocessed vertices in the heap, as described in lecture.  Note this requires a heap that supports deletions, and you'll probably need to maintain some kind of mapping between vertices and their positions in the heap.
 
+import heapq
 from collections import namedtuple, defaultdict
 
 Vertex = namedtuple('Vertex', ['cost', 'id', 'parent_id'])
@@ -39,13 +40,26 @@ def get_next_vertex(min_dist_table):
     min_dist_table[min_vertex.id - 1] = Vertex(float('inf'), min_vertex.id, min_vertex.parent_id)
     return min_vertex
 
+def prim_mst_heap_impl(graph, number_of_nodes, start_vertex):
+    mst = []
+    visited = set()
+    queue = [Vertex(0, start_vertex, None)]
+    while len(visited) != number_of_nodes:
+        next_vertex = heapq.heappop(queue)
+        if next_vertex.id not in visited:
+            mst.append(next_vertex)
+            for neighbor, cost in graph[next_vertex.id]:
+                if neighbor not in visited:
+                    heapq.heappush(queue, Vertex(cost, neighbor, next_vertex.id))
+            visited.add(next_vertex.id)
+    return mst
+
 def prim_mst_classic_impl(graph, number_of_nodes, start_vertex):
     mst = []
     visited = set()
     min_dist_table = [
         Vertex(float('inf'), vertex, None) for vertex in range(1, number_of_nodes + 1)
     ]
-
     min_dist_table[start_vertex - 1] = Vertex(0, start_vertex, None)
     while len(visited) != number_of_nodes:
         next_vertex = get_next_vertex(min_dist_table)
@@ -59,7 +73,20 @@ def prim_mst_classic_impl(graph, number_of_nodes, start_vertex):
 
 def mst_total_cost(number_of_nodes, graph):
     start_vertex = 1
-    mst = prim_mst_classic_impl(graph, number_of_nodes, start_vertex)
-    return sum(node.cost for node in mst)
+    mst_classic = prim_mst_classic_impl(graph, number_of_nodes, start_vertex)
+    mst_heap = prim_mst_heap_impl(graph, number_of_nodes, start_vertex)
+
+    cost_mst_classic = sum(node.cost for node in mst_classic)
+    cost_mst_heap = sum(node.cost for node in mst_heap)
+
+    assert cost_mst_classic == cost_mst_heap
+
+    return cost_mst_classic
+
+if __name__ == '__main__':
+    number_of_nodes, number_of_edges, graph = get_data()
+    mst_total_cost(number_of_nodes, graph)
 
 # -3612829
+# classic mst time: 0.0716
+# heap based mst time: 0.0082
