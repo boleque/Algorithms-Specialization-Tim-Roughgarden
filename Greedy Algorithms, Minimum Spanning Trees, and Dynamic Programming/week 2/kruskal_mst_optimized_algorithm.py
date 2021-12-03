@@ -22,7 +22,7 @@ def find_cycle(disjoint_set, vtx_1, vtx_2):
     union_result = DisjointSet.union(vtx_1_node, vtx_2_node)
     find_cycle = not union_result
 
-    return not find_cycle
+    return find_cycle
 
 def get_data():
     with open("edges.txt") as f:
