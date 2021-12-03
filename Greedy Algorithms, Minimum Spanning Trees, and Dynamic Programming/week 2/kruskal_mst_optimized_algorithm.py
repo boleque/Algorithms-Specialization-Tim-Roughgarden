@@ -1,5 +1,3 @@
-import time
-from collections import defaultdict
 from disjoint_set import DisjointSet
 
 
@@ -19,7 +17,7 @@ def find_cycle(disjoint_set, vtx_1, vtx_2):
     vtx_1_node = disjoint_set.get_node_by_id(vtx_1)
     vtx_2_node = disjoint_set.get_node_by_id(vtx_2)
 
-    union_result = DisjointSet.union(vtx_1_node, vtx_2_node)
+    union_result = disjoint_set.union(vtx_1_node, vtx_2_node)
     find_cycle = not union_result
 
     return find_cycle
@@ -37,5 +35,3 @@ def get_data():
 if __name__ == '__main__':
     _, edges = get_data()
     mst = kruskal_mst_optimized_impl(edges)
-    mst_cost = sum([cost for _, _, cost in mst])
-    assert mst_cost == -3612829
