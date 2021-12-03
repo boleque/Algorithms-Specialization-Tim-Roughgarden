@@ -15,10 +15,12 @@ class DisjointSet(object):
         self.nodes_map = {}
 
     def make_set(self, unique_id):
+        if unique_id in self.nodes_map:
+            return False
         new_node = DisjointSet.Node(unique_id)
         new_node.leader = new_node
         self.nodes_map[new_node.unique_id] = new_node
-        return new_node
+        return True
 
     def get_node_by_id(self, unique_id):
         return self.nodes_map.get(unique_id)
