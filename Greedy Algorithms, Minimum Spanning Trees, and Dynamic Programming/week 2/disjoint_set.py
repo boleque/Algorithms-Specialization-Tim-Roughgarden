@@ -13,6 +13,7 @@ class DisjointSet(object):
 
     def __init__(self):
         self.nodes_map = {}
+        self.sets_counter = 0
 
     def make_set(self, unique_id):
         if unique_id in self.nodes_map:
@@ -20,21 +21,20 @@ class DisjointSet(object):
         new_node = DisjointSet.Node(unique_id)
         new_node.leader = new_node
         self.nodes_map[new_node.unique_id] = new_node
+        self.sets_counter += 1
         return True
 
     def get_node_by_id(self, unique_id):
         return self.nodes_map.get(unique_id)
 
-    @staticmethod
-    def find(node):
+    def find(self, node):
         if node != node.leader:
-            return DisjointSet.find(node.leader)
+            return self.find(node.leader)
         return node
 
-    @staticmethod
-    def union(set1, set2):
-        leader1 = DisjointSet.find(set1)
-        leader2 = DisjointSet.find(set2)
+    def union(self, set1, set2):
+        leader1 = self.find(set1)
+        leader2 = self.find(set2)
 
         if leader1 == leader2:
             return False
@@ -47,6 +47,7 @@ class DisjointSet(object):
         else:
             leader2.leader = leader1
 
+        self.sets_counter -= 1
         return True
 
 
@@ -68,7 +69,7 @@ def join_sets_with_distinct_leaders():
     disjoint_set.make_set(b_node_id)
     a_node_obj = disjoint_set.get_node_by_id(a_node_id)
     b_node_obj = disjoint_set.get_node_by_id(b_node_id)
-    result = DisjointSet.union(a_node_obj, b_node_obj)
+    result = disjoint_set.union(a_node_obj, b_node_obj)
     
     assert result == True
     assert b_node_obj.rank == 1 and a_node_obj.rank == 0 
@@ -79,7 +80,7 @@ def join_sets_with_same_leaders():
     disjoint_set = DisjointSet()
     disjoint_set.make_set(a_node_id)
     a_node_obj = disjoint_set.get_node_by_id(a_node_id)
-    result = DisjointSet.union(a_node_obj, a_node_obj)
+    result = disjoint_set.union(a_node_obj, a_node_obj)
 
     assert result == False
 
