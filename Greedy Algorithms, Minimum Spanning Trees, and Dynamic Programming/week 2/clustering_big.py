@@ -4,6 +4,9 @@ from disjoint_set import DisjointSet
 #[first bit of node 1] ... [last bit of node 1]
 #[first bit of node 2] ... [last bit of node 2]
 
+def filter_node_within_distance(distance, bits_number, nodes):
+    pass
+
 def get_data():
     with open("clustering_big.txt") as f:
         nodes = {}
