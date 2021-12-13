@@ -28,29 +28,28 @@ class DisjointSet(object):
         return self.nodes_map.get(unique_id)
 
     def find(self, node):
-        if node != node.leader:
-            return self.find(node.leader)
+        while node != node.leader:
+            node = node.leader
         return node
 
-    def union(self, set1, set2):
-        leader1 = self.find(set1)
-        leader2 = self.find(set2)
+    def union(self, x_set, y_set):
+        x_leader = self.find(x_set)
+        y_leader = self.find(y_set)
 
-        if leader1 == leader2:
+        if x_leader == y_leader:
             return False
 
-        if leader1.rank == leader2.rank:
-            leader1.leader = leader2
-            leader2.rank += 1
-        elif leader1.rank > leader2.rank:
-            leader1.leader = leader2
+        if x_leader.rank < y_leader.rank:
+            x_leader.leader = y_leader
+        elif x_leader.rank > y_leader.rank:
+            y_leader.leader = x_leader
         else:
-            leader2.leader = leader1
+            x_leader.leader = y_leader
+            y_leader.rank += 1
 
         self.sets_counter -= 1
         return True
-
-
+     
 def create_set():
     node_id = 'a'
     disjoint_set = DisjointSet()
@@ -88,3 +87,4 @@ if __name__ == '__main__':
     create_set()
     join_sets_with_distinct_leaders()
     join_sets_with_same_leaders()
+    # 6118
