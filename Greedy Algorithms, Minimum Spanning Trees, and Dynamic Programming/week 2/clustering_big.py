@@ -58,3 +58,4 @@ if __name__ == '__main__':
     nodes_number, bits_number, nodes_by_distance = get_data()
     disjoint_set = clustering(nodes_by_distance, bits_number)
     print(disjoint_set.sets_counter)
+     # 6118

@@ -87,4 +87,3 @@ if __name__ == '__main__':
     create_set()
     join_sets_with_distinct_leaders()
     join_sets_with_same_leaders()
-    # 6118
